@@ -16,37 +16,28 @@ fn get_lines_and_columns() {
 #[test]
 fn skip_ascii_whitespace() {
     let mut cursor = Cursor::new(b"a\n\t\x0C\r");
-    
+
     cursor.skip_ascii_whitespace();
-    assert_eq!(
-        cursor.peek(),
-        Some(b'a')
-    );
-    
+    assert_eq!(cursor.peek(), Some(b'a'));
+
     cursor.advance();
     cursor.skip_ascii_whitespace();
-    
-    assert_eq!(
-        cursor.peek(),
-        None
-    )
+
+    assert_eq!(cursor.peek(), None)
 }
 
 #[test]
 fn position() {
     let slice = b"abc";
     let mut cursor = Cursor::new(slice);
-    
-    cursor.advance();
-    
-    let position = cursor.position();
-    
+
     cursor.advance();
 
-    assert_eq!(
-        &slice[1..2],
-        position.slice_to(cursor.position())
-    );
+    let position = cursor.position();
+
+    cursor.advance();
+
+    assert_eq!(&slice[1..2], position.slice_to(cursor.position()));
 }
 
 #[test]
@@ -86,10 +77,10 @@ fn peek() {
     let mut cursor = Cursor::new("AB".as_bytes());
     assert_eq!(cursor.peek(), Some(b'A'));
     assert_eq!(cursor.peek(), Some(b'A'));
-    
+
     unsafe { cursor.advance_unchecked() }
     assert_eq!(cursor.peek(), Some(b'B'));
-    
+
     unsafe { cursor.advance_unchecked() }
     assert_eq!(cursor.peek(), None);
 }
@@ -97,7 +88,7 @@ fn peek() {
 #[test]
 fn peek_n() {
     let cursor = Cursor::new("AB".as_bytes());
-    
+
     assert_eq!(cursor.peek_n(0), Some(b'A'));
     assert_eq!(cursor.peek_n(1), Some(b'B'));
     assert_eq!(cursor.peek_n(2), None);
@@ -125,14 +116,14 @@ fn has_next() {
 #[test]
 fn advance_char() {
     let mut cursor = Cursor::new("AB€C".as_bytes());
-    
+
     assert_eq!(cursor.advance_char(), Ok(()));
     assert_eq!(cursor.peek(), Some(b'B'));
-    
+
     cursor.advance_char().unwrap();
     cursor.advance_char().unwrap();
     assert_eq!(cursor.peek(), Some(b'C'));
-    
+
     cursor.advance_char().unwrap();
     assert_eq!(cursor.peek(), None);
 }

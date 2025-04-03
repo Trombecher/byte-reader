@@ -3,18 +3,18 @@
 
 //! A crate providing utilities for slice iteration.
 
-mod tests;
 mod cursor;
 mod position;
+mod tests;
 
 pub use cursor::*;
 pub use position::*;
 
 /// Calculates line:col from a source string slice and an offset. CRLF sequences are treated as
 /// one line break.
-/// 
+///
 /// May be useful for error messages.
-/// 
+///
 /// **Lines and columns are 0-indexed**, meaning the first line (or the first column) is 0.
 pub fn get_lines_and_columns(source: &str, mut byte_offset: usize) -> (usize, usize) {
     let mut lines = 0;
@@ -44,7 +44,7 @@ pub fn get_lines_and_columns(source: &str, mut byte_offset: usize) -> (usize, us
                 columns += 1;
                 unsafe { cursor.advance_char_unchecked() }
             }
-            None => break
+            None => break,
         }
 
         byte_offset -= 1;

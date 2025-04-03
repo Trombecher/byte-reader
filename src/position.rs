@@ -23,9 +23,6 @@ impl<'a> Position<'a> {
             panic!("Next position is previous");
         }
 
-        unsafe { slice::from_raw_parts(
-            self.0,
-            size as usize
-        ) }
+        unsafe { slice::from_raw_parts(self.0, size as usize) }
     }
 }
