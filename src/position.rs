@@ -16,7 +16,7 @@ impl<'a> Position<'a> {
     ///
     /// **Panics if `self > next`**.
     #[inline]
-    pub fn slice_to(self, next: Position<'a>) -> &'a [u8] {
+    pub unsafe fn slice_to(self, next: Position<'a>) -> &'a [u8] {
         let size = unsafe { next.0.offset_from(self.0) };
 
         if size < 0 {
